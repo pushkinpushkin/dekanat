@@ -1,0 +1,1 @@
+Dekanat app
