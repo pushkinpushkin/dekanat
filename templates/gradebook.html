@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+{% block content %}
+<h2>Ведомость: {{ gradebook.course_name }} / {{ gradebook.group_name }} / {{ gradebook.session_year }} {{ gradebook.session_term }}</h2>
+<p>Статус: {{ gradebook.status }}</p>
+<table>
+    <tr><th>Студент</th><th>Оценка</th><th>Действие</th></tr>
+    {% for g in grades %}
+    <tr>
+        <td>{{ g.last_name }} {{ g.first_name }} {{ g.patronymic }}</td>
+        <td>{{ g.grade or '-' }}</td>
+        <td>
+            {% if can_edit %}
+            <form method="post">
+                <input type="hidden" name="student_id" value="{{ g.student_id }}">
+                <select name="grade">
+                    {% for option in grade_options %}
+                    <option value="{{ option }}" {% if g.grade==option %}selected{% endif %}>{{ option }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit">Сохранить</button>
+            </form>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<div class="actions">
+    {% if can_close %}
+    <form method="post" action="{{ url_for('gradebooks.close_gradebook', gradebook_id=gradebook.id) }}">
+        <button type="submit" {% if gradebook.status != 'OPEN' %}disabled{% endif %}>Закрыть (OPEN→CLOSED)</button>
+    </form>
+    {% endif %}
+    {% if can_finalize %}
+    <form method="post" action="{{ url_for('gradebooks.finalize_gradebook', gradebook_id=gradebook.id) }}">
+        <button type="submit" {% if gradebook.status != 'CLOSED' %}disabled{% endif %}>Финализировать (CLOSED→FINAL)</button>
+    </form>
+    {% endif %}
+</div>
+{% endblock %}

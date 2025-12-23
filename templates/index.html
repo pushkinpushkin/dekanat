@@ -1,0 +1,5 @@
+{% extends 'layout.html' %}
+{% block content %}
+<p>Добро пожаловать, {{ current_user.full_name }} (роль: {{ current_user.role }}).</p>
+<p>Используйте меню для работы со студентами, дисциплинами и ведомостями.</p>
+{% endblock %}

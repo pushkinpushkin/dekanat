@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+{% block content %}
+<h2>Дисциплины</h2>
+<a class="button" href="{{ url_for('courses.create_course') }}">Добавить</a>
+<table>
+    <tr><th>Название</th><th>Семестр</th><th>Часы</th><th>Преподаватель</th><th>Действия</th></tr>
+    {% for c in courses %}
+    <tr>
+        <td>{{ c.name }}</td>
+        <td>{{ c.semester }}</td>
+        <td>{{ c.hours }}</td>
+        <td>{{ c.teacher_name or 'не назначен' }}</td>
+        <td><a href="{{ url_for('courses.edit_course', course_id=c.id) }}">Редактировать</a></td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

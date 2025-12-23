@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>Деканат</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Учет успеваемости студентов</h1>
+        {% if current_user.is_authenticated %}
+        <nav>
+            <a href="{{ url_for('index') }}">Главная</a>
+            <a href="{{ url_for('students.list_students') }}">Студенты</a>
+            <a href="{{ url_for('courses.list_courses') }}">Дисциплины</a>
+            <a href="{{ url_for('gradebooks.list_gradebooks') }}">Ведомости</a>
+            <a href="{{ url_for('auth.logout') }}">Выход ({{ current_user.full_name }})</a>
+        </nav>
+        {% endif %}
+    </header>
+    <main>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="flashes">
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>
