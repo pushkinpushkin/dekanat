@@ -15,7 +15,7 @@ def login():
         if user:
             login_user(user)
             flash("Добро пожаловать!", "success")
-            return redirect(url_for("index"))
+            return redirect(url_for("main.index"))
         flash("Неверные учетные данные", "danger")
     return render_template("login.html")
 

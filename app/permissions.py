@@ -19,7 +19,7 @@ def role_required(allowed_roles):
                 return redirect(url_for("auth.login"))
             if current_user.role not in allowed_roles:
                 flash("Недостаточно прав", "danger")
-                return redirect(url_for("index"))
+                return redirect(url_for("main.index"))
             return view(*args, **kwargs)
 
         return wrapped

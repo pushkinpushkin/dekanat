@@ -10,7 +10,7 @@
         <h1>Учет успеваемости студентов</h1>
         {% if current_user.is_authenticated %}
         <nav>
-            <a href="{{ url_for('index') }}">Главная</a>
+            <a href="{{ url_for('main.index') }}">Главная</a>
             <a href="{{ url_for('students.list_students') }}">Студенты</a>
             <a href="{{ url_for('courses.list_courses') }}">Дисциплины</a>
             <a href="{{ url_for('gradebooks.list_gradebooks') }}">Ведомости</a>
