@@ -48,9 +48,14 @@ requirements.txt        # зависимости
 - `grades` (оценки по студентам, уникальные в ведомости)
 
 ## Инициализация БД
+Приложение не меняет БД автоматически при старте.
+
+Ручная инициализация (например, для чистого запуска в проде):
 1. Поднять MySQL через Docker: `docker compose up -d db`
-2. Применить схему: `mysql -h 127.0.0.1 -u app -papppass decanat < schema.sql`
-3. Заполнить демо-данные: `mysql -h 127.0.0.1 -u app -papppass decanat < seed.sql`
+2. Выполнить скрипт инициализации (использует переменные `MYSQL_HOST`, `MYSQL_PORT`, `MYSQL_USER`, `MYSQL_PASSWORD`, `MYSQL_DATABASE`, по умолчанию значения из `.env.example`):  
+   ```bash
+   ./init_db.sh
+   ```
 
 ## Запуск приложения (macOS)
 1. Создать `.env` из `.env.example` и при необходимости скорректировать доступ к БД.
