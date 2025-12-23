@@ -18,5 +18,12 @@ services:
       interval: 10s
       retries: 10
       timeout: 10s
+  adminer:
+    image: adminer:4
+    ports:
+      # Expose Adminer on host port 8070 so host port 8080 remains free for the app
+      - "8070:8080"
+    depends_on:
+      - db
 volumes:
   db_data:
