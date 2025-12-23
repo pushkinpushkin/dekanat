@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+{% block content %}
+<h2>Студенты</h2>
+<a class="button" href="{{ url_for('students.create_student') }}">Добавить</a>
+<table>
+    <tr>
+        <th>Номер</th><th>ФИО</th><th>Группа</th><th>Факультет</th><th>Направление</th><th>Действия</th>
+    </tr>
+    {% for s in students %}
+    <tr>
+        <td>{{ s.student_number }}</td>
+        <td>{{ s.last_name }} {{ s.first_name }} {{ s.patronymic }}</td>
+        <td>{{ s.group_name }}</td>
+        <td>{{ s.faculty_name }}</td>
+        <td>{{ s.program_name }}</td>
+        <td>
+            <a href="{{ url_for('students.edit_student', student_id=s.id) }}">Редактировать</a>
+            <form method="post" action="{{ url_for('students.delete_student', student_id=s.id) }}" style="display:inline">
+                <button type="submit" onclick="return confirm('Удалить?')">Удалить</button>
+            </form>
+            <a href="{{ url_for('reports.transcript', student_id=s.id) }}">Справка</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

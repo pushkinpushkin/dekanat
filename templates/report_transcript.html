@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+{% block content %}
+<h2>Справка по студенту</h2>
+{% if student %}
+<p><strong>ФИО:</strong> {{ student.last_name }} {{ student.first_name }} {{ student.patronymic }}</p>
+<p><strong>Группа:</strong> {{ student.group_name }} ({{ student.program_name }} / {{ student.faculty_name }})</p>
+<table>
+    <tr><th>Дисциплина</th><th>Год</th><th>Сессия</th><th>Оценка</th></tr>
+    {% for g in grades %}
+    <tr>
+        <td>{{ g.course_name }}</td>
+        <td>{{ g.session_year }}</td>
+        <td>{{ g.session_term }}</td>
+        <td>{{ g.grade or '-' }}</td>
+    </tr>
+    {% endfor %}
+</table>
+<a class="button" href="javascript:window.print()">Печать в PDF</a>
+{% if not pdf_mode %}
+    <a class="button" href="{{ url_for('reports.transcript_pdf', student_id=student.id) }}">Скачать PDF (если доступен WeasyPrint)</a>
+{% endif %}
+{% endif %}
+{% endblock %}

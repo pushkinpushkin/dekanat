@@ -1,0 +1,20 @@
+{% extends 'layout.html' %}
+{% block content %}
+<h2>{{ 'Редактировать дисциплину' if course else 'Новая дисциплина' }}</h2>
+<form method="post">
+    <label>Название</label>
+    <input type="text" name="name" value="{{ course.name if course }}" required>
+    <label>Семестр</label>
+    <input type="number" name="semester" value="{{ course.semester if course }}" required>
+    <label>Часы</label>
+    <input type="number" name="hours" value="{{ course.hours if course }}" required>
+    <label>Преподаватель</label>
+    <select name="teacher_user_id">
+        <option value="">-- не назначен --</option>
+        {% for t in teachers %}
+        <option value="{{ t.id }}" {% if course and course.teacher_user_id==t.id %}selected{% endif %}>{{ t.full_name }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Сохранить</button>
+</form>
+{% endblock %}
