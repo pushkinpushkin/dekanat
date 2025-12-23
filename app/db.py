@@ -1,8 +1,9 @@
 import mysql.connector
 from mysql.connector import pooling
-from flask import current_app, g
+from flask import g
 
 _pool = None
+
 
 def init_pool(app):
     global _pool
