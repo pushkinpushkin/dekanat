@@ -1,21 +1,35 @@
 {% extends 'layout.html' %}
 {% block content %}
-<h2>{{ 'Редактировать студента' if student else 'Новый студент' }}</h2>
-<form method="post">
-    <label>Номер зачетки</label>
-    <input type="text" name="student_number" value="{{ student.student_number if student }}" required>
-    <label>Фамилия</label>
-    <input type="text" name="last_name" value="{{ student.last_name if student }}" required>
-    <label>Имя</label>
-    <input type="text" name="first_name" value="{{ student.first_name if student }}" required>
-    <label>Отчество</label>
-    <input type="text" name="patronymic" value="{{ student.patronymic if student }}">
-    <label>Группа</label>
-    <select name="group_id" required>
-        {% for g in groups %}
-        <option value="{{ g.id }}" {% if student and student.group_id==g.id %}selected{% endif %}>{{ g.name }} ({{ g.program_name }} / {{ g.faculty_name }})</option>
-        {% endfor %}
-    </select>
-    <button type="submit">Сохранить</button>
-</form>
+<section class="section card">
+    <h2>{{ 'Редактировать студента' if student else 'Новый студент' }}</h2>
+    <form class="stack" method="post">
+        <div class="field">
+            <label for="student_number">Номер зачетки</label>
+            <input class="input" id="student_number" type="text" name="student_number" value="{{ student.student_number if student }}" required>
+        </div>
+        <div class="field">
+            <label for="last_name">Фамилия</label>
+            <input class="input" id="last_name" type="text" name="last_name" value="{{ student.last_name if student }}" required>
+        </div>
+        <div class="field">
+            <label for="first_name">Имя</label>
+            <input class="input" id="first_name" type="text" name="first_name" value="{{ student.first_name if student }}" required>
+        </div>
+        <div class="field">
+            <label for="patronymic">Отчество</label>
+            <input class="input" id="patronymic" type="text" name="patronymic" value="{{ student.patronymic if student }}">
+        </div>
+        <div class="field">
+            <label for="group_id">Группа</label>
+            <select id="group_id" name="group_id" required>
+                {% for g in groups %}
+                <option value="{{ g.id }}" {% if student and student.group_id==g.id %}selected{% endif %}>{{ g.name }} ({{ g.program_name }} / {{ g.faculty_name }})</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="actions">
+            <button class="btn btn--primary" type="submit">Сохранить</button>
+        </div>
+    </form>
+</section>
 {% endblock %}

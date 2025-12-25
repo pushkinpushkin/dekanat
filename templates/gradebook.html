@@ -8,45 +8,53 @@
     table.report-table th, table.report-table td { border: 1px solid #aaa; padding: 6px; font-size: 12px; }
 </style>
 {% endif %}
-<h2>Ведомость: {{ gradebook.course_name }} / {{ gradebook.group_name }} / {{ gradebook.session_year }} {{ gradebook.session_term }}</h2>
-<p>Статус: {{ gradebook.status }}</p>
-<table class="report-table">
-    <tr><th>Студент</th><th>Оценка</th>{% if not pdf_mode %}<th>Действие</th>{% endif %}</tr>
-    {% for g in grades %}
-    <tr>
-        <td>{{ g.last_name }} {{ g.first_name }} {{ g.patronymic }}</td>
-        <td>{{ g.grade or '-' }}</td>
-        {% if not pdf_mode %}
-        <td>
-            {% if can_edit %}
-            <form method="post">
-                <input type="hidden" name="student_id" value="{{ g.student_id }}">
-                <select name="grade">
-                    {% for option in grade_options %}
-                    <option value="{{ option }}" {% if g.grade==option %}selected{% endif %}>{{ option }}</option>
-                    {% endfor %}
-                </select>
-                <button type="submit">Сохранить</button>
-            </form>
-            {% endif %}
-        </td>
+<section class="section card">
+    <div class="card__header">
+        <h2>Ведомость: {{ gradebook.course_name }} / {{ gradebook.group_name }} / {{ gradebook.session_year }} {{ gradebook.session_term }}</h2>
+        <span class="badge">Статус: {{ gradebook.status }}</span>
+    </div>
+    <table class="{% if pdf_mode %}report-table{% else %}table{% endif %}">
+        <thead>
+            <tr><th>Студент</th><th>Оценка</th>{% if not pdf_mode %}<th>Действие</th>{% endif %}</tr>
+        </thead>
+        <tbody>
+        {% for g in grades %}
+            <tr>
+                <td>{{ g.last_name }} {{ g.first_name }} {{ g.patronymic }}</td>
+                <td>{{ g.grade or '-' }}</td>
+                {% if not pdf_mode %}
+                <td>
+                    {% if can_edit %}
+                    <form class="row" method="post">
+                        <input type="hidden" name="student_id" value="{{ g.student_id }}">
+                        <select name="grade">
+                            {% for option in grade_options %}
+                            <option value="{{ option }}" {% if g.grade==option %}selected{% endif %}>{{ option }}</option>
+                            {% endfor %}
+                        </select>
+                        <button class="btn btn--secondary" type="submit">Сохранить</button>
+                    </form>
+                    {% endif %}
+                </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% if not pdf_mode %}
+    <div class="actions">
+        <a class="btn btn--secondary" href="{{ url_for('gradebooks.gradebook_pdf', gradebook_id=gradebook.id) }}">Скачать PDF</a>
+        {% if can_close %}
+        <form method="post" action="{{ url_for('gradebooks.close_gradebook', gradebook_id=gradebook.id) }}">
+            <button class="btn btn--secondary" type="submit" {% if gradebook.status != 'OPEN' %}disabled{% endif %}>Закрыть (OPEN→CLOSED)</button>
+        </form>
         {% endif %}
-    </tr>
-    {% endfor %}
-</table>
-{% if not pdf_mode %}
-<div class="actions">
-    <a class="button" href="{{ url_for('gradebooks.gradebook_pdf', gradebook_id=gradebook.id) }}">Скачать PDF</a>
-    {% if can_close %}
-    <form method="post" action="{{ url_for('gradebooks.close_gradebook', gradebook_id=gradebook.id) }}">
-        <button type="submit" {% if gradebook.status != 'OPEN' %}disabled{% endif %}>Закрыть (OPEN→CLOSED)</button>
-    </form>
+        {% if can_finalize %}
+        <form method="post" action="{{ url_for('gradebooks.finalize_gradebook', gradebook_id=gradebook.id) }}">
+            <button class="btn btn--primary" type="submit" {% if gradebook.status != 'CLOSED' %}disabled{% endif %}>Финализировать (CLOSED→FINAL)</button>
+        </form>
+        {% endif %}
+    </div>
     {% endif %}
-    {% if can_finalize %}
-    <form method="post" action="{{ url_for('gradebooks.finalize_gradebook', gradebook_id=gradebook.id) }}">
-        <button type="submit" {% if gradebook.status != 'CLOSED' %}disabled{% endif %}>Финализировать (CLOSED→FINAL)</button>
-    </form>
-    {% endif %}
-</div>
-{% endif %}
+</section>
 {% endblock %}

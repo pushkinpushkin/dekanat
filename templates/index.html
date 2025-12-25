@@ -1,5 +1,53 @@
 {% extends 'layout.html' %}
 {% block content %}
-<p>Добро пожаловать, {{ current_user.full_name }} (роль: {{ current_user.role }}).</p>
-<p>Используйте меню для работы со студентами, дисциплинами и ведомостями.</p>
+<section class="home-section">
+    <div class="home-hero">
+        <div class="home-hero__text">
+            <h1>Здравствуйте, {{ current_user.full_name }}!</h1>
+            <p class="muted">Роль: {{ current_user.role }}. Выберите нужный раздел, чтобы продолжить.</p>
+        </div>
+        <div class="home-hero__aside"></div>
+    </div>
+
+    <div class="panel-grid">
+        <article class="panel">
+            <div class="panel__header">
+                <div>
+                    <p class="eyebrow">Раздел</p>
+                    <h3>Студенты</h3>
+                </div>
+            </div>
+            <p class="muted">Карточки студентов, группы и контактные данные.</p>
+            <div class="panel__footer">
+                <a class="btn btn--secondary" href="{{ url_for('students.list_students') }}">Перейти</a>
+            </div>
+        </article>
+
+        <article class="panel">
+            <div class="panel__header">
+                <div>
+                    <p class="eyebrow">Раздел</p>
+                    <h3>Дисциплины</h3>
+                </div>
+            </div>
+            <p class="muted">Учебные курсы и назначенные преподаватели.</p>
+            <div class="panel__footer">
+                <a class="btn btn--secondary" href="{{ url_for('courses.list_courses') }}">Перейти</a>
+            </div>
+        </article>
+
+        <article class="panel">
+            <div class="panel__header">
+                <div>
+                    <p class="eyebrow">Раздел</p>
+                    <h3>Ведомости</h3>
+                </div>
+            </div>
+            <p class="muted">Статусы ведомостей и последние изменения.</p>
+            <div class="panel__footer">
+                <a class="btn btn--secondary" href="{{ url_for('gradebooks.list_gradebooks') }}">Перейти</a>
+            </div>
+        </article>
+    </div>
+</section>
 {% endblock %}
