@@ -222,6 +222,7 @@ p {
 .card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-auto-rows: 1fr;
   gap: var(--space-4);
   align-items: stretch;
 }
