@@ -18,10 +18,14 @@ INSERT INTO students (student_number, last_name, first_name, patronymic, group_i
 INSERT INTO courses (name, semester, hours, teacher_user_id) VALUES
 ('Базы данных', 2, 72, 2),
 ('Веб-разработка', 2, 72, 2),
+('Математика', 2, 72, 3),
 ('Алгоритмы', 1, 72, NULL);
 
 INSERT INTO gradebooks (course_id, group_id, session_year, session_term, status) VALUES
-(1, 1, 2024, 'WINTER', 'OPEN');
+(1, 1, 2024, 'WINTER', 'OPEN'),
+(2, 1, 2024, 'SUMMER', 'OPEN'),
+(3, 1, 2024, 'SUMMER', 'OPEN'),
+(4, 1, 2024, 'SUMMER', 'OPEN');
 
 INSERT INTO grades (gradebook_id, student_id, grade, updated_by) VALUES
 (1, 1, 'удов', 2),
