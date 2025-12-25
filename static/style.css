@@ -199,7 +199,9 @@ p {
 .card-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-rows: 1fr;
   gap: var(--space-4);
+  align-items: stretch;
 }
 
 .table {
@@ -211,6 +213,10 @@ p {
   overflow: hidden;
   box-shadow: var(--shadow-sm);
   margin-top: var(--space-4);
+}
+
+.table thead {
+  border-bottom: 1px solid var(--color-border);
 }
 
 .table th,
@@ -238,6 +244,10 @@ p {
 
 .table .muted {
   color: var(--color-text-muted);
+}
+
+.table tbody tr:nth-child(odd) {
+  background: #FCFCFB;
 }
 
 .btn {
