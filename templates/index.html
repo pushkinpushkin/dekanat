@@ -4,25 +4,49 @@
     <div class="hero">
         <div class="hero__text">
             <h1>Здравствуйте, {{ current_user.full_name }}!</h1>
-            <p>Роль: {{ current_user.role }}. Используйте верхнее меню, чтобы управлять студентами, дисциплинами и ведомостями.</p>
+            <p>Роль: {{ current_user.role }}. Ниже — быстрые ссылки и краткий обзор данных.</p>
+        </div>
+        <div class="stack" style="min-width: 220px;">
+            <span class="badge">Сегодня: {{ current_date|default('14.03.2025') }}</span>
+            <p class="muted">Обновление сводки каждые 24 часа</p>
         </div>
     </div>
     <div class="card-grid">
         <div class="card">
             <h3>Студенты</h3>
-            <p class="muted">Управление карточками студентов, группами и направлениями.</p>
-            <a class="btn btn--secondary" href="{{ url_for('students.list_students') }}">Перейти</a>
+            <p class="muted">Карточки студентов, группы и контактные данные.</p>
+            <div class="row" style="justify-content: space-between;">
+                <span class="muted">Всего: {{ total_students|default('—') }}</span>
+                <a class="btn btn--secondary" href="{{ url_for('students.list_students') }}">Перейти</a>
+            </div>
         </div>
         <div class="card">
             <h3>Дисциплины</h3>
-            <p class="muted">Редактируйте дисциплины и назначайте преподавателей.</p>
-            <a class="btn btn--secondary" href="{{ url_for('courses.list_courses') }}">Перейти</a>
+            <p class="muted">Учебные курсы и назначенные преподаватели.</p>
+            <div class="row" style="justify-content: space-between;">
+                <span class="muted">Всего: {{ total_courses|default('—') }}</span>
+                <a class="btn btn--secondary" href="{{ url_for('courses.list_courses') }}">Перейти</a>
+            </div>
         </div>
         <div class="card">
             <h3>Ведомости</h3>
-            <p class="muted">Просматривайте и финализируйте ведомости с оценками.</p>
-            <a class="btn btn--secondary" href="{{ url_for('gradebooks.list_gradebooks') }}">Перейти</a>
+            <p class="muted">Статусы ведомостей и последние изменения.</p>
+            <div class="row" style="justify-content: space-between;">
+                <span class="muted">Открыто: {{ open_gradebooks|default('—') }}</span>
+                <a class="btn btn--secondary" href="{{ url_for('gradebooks.list_gradebooks') }}">Перейти</a>
+            </div>
         </div>
+    </div>
+    <div class="card" style="margin-top: var(--space-4);">
+        <div class="card__header">
+            <h3>Заглушка: ближайшие события</h3>
+            <span class="badge">Бета</span>
+        </div>
+        <ul class="stack" style="margin: 0;">
+            <li class="muted">• Пересчет рейтинга за семестр — ожидается завтра.</li>
+            <li class="muted">• Добавление новых шаблонов ведомостей — в разработке.</li>
+            <li class="muted">• Виджет активности преподавателей — скоро.</li>
+        </ul>
     </div>
 </section>
 {% endblock %}
