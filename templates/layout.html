@@ -6,29 +6,39 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <header>
-        <h1>Учет успеваемости студентов</h1>
-        {% if current_user.is_authenticated %}
-        <nav>
-            <a href="{{ url_for('main.index') }}">Главная</a>
-            <a href="{{ url_for('students.list_students') }}">Студенты</a>
-            <a href="{{ url_for('courses.list_courses') }}">Дисциплины</a>
-            <a href="{{ url_for('gradebooks.list_gradebooks') }}">Ведомости</a>
-            <a href="{{ url_for('auth.logout') }}">Выход ({{ current_user.full_name }})</a>
-        </nav>
-        {% endif %}
-    </header>
-    <main>
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                <ul class="flashes">
-                    {% for category, message in messages %}
-                        <li class="{{ category }}">{{ message }}</li>
-                    {% endfor %}
-                </ul>
+    <header class="topbar">
+        <div class="container topbar__inner">
+            <div class="brand">
+                <div class="brand__symbol" aria-hidden="true"></div>
+                <div class="brand__text">
+                    <span class="brand__title">Учет успеваемости</span>
+                    <span class="brand__subtitle">Деканат</span>
+                </div>
+            </div>
+            {% if current_user.is_authenticated %}
+            <nav class="topbar__nav" aria-label="Основная навигация">
+                <a class="nav-link" href="{{ url_for('main.index') }}">Главная</a>
+                <a class="nav-link" href="{{ url_for('students.list_students') }}">Студенты</a>
+                <a class="nav-link" href="{{ url_for('courses.list_courses') }}">Дисциплины</a>
+                <a class="nav-link" href="{{ url_for('gradebooks.list_gradebooks') }}">Ведомости</a>
+                <a class="nav-link" href="{{ url_for('auth.logout') }}">Выход ({{ current_user.full_name }})</a>
+            </nav>
             {% endif %}
-        {% endwith %}
-        {% block content %}{% endblock %}
+        </div>
+    </header>
+    <main class="page">
+        <div class="container">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <ul class="flashes" role="status" aria-live="polite">
+                        {% for category, message in messages %}
+                            <li class="flash flash--{{ category }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+            {% block content %}{% endblock %}
+        </div>
     </main>
 </body>
 </html>

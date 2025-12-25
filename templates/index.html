@@ -1,5 +1,28 @@
 {% extends 'layout.html' %}
 {% block content %}
-<p>Добро пожаловать, {{ current_user.full_name }} (роль: {{ current_user.role }}).</p>
-<p>Используйте меню для работы со студентами, дисциплинами и ведомостями.</p>
+<section class="section card">
+    <div class="hero">
+        <div class="hero__text">
+            <h1>Здравствуйте, {{ current_user.full_name }}!</h1>
+            <p>Роль: {{ current_user.role }}. Используйте верхнее меню, чтобы управлять студентами, дисциплинами и ведомостями.</p>
+        </div>
+    </div>
+    <div class="card-grid">
+        <div class="card">
+            <h3>Студенты</h3>
+            <p class="muted">Управление карточками студентов, группами и направлениями.</p>
+            <a class="btn btn--secondary" href="{{ url_for('students.list_students') }}">Перейти</a>
+        </div>
+        <div class="card">
+            <h3>Дисциплины</h3>
+            <p class="muted">Редактируйте дисциплины и назначайте преподавателей.</p>
+            <a class="btn btn--secondary" href="{{ url_for('courses.list_courses') }}">Перейти</a>
+        </div>
+        <div class="card">
+            <h3>Ведомости</h3>
+            <p class="muted">Просматривайте и финализируйте ведомости с оценками.</p>
+            <a class="btn btn--secondary" href="{{ url_for('gradebooks.list_gradebooks') }}">Перейти</a>
+        </div>
+    </div>
+</section>
 {% endblock %}

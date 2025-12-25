@@ -1,20 +1,32 @@
 {% extends 'layout.html' %}
 {% block content %}
-<h2>{{ 'Редактировать дисциплину' if course else 'Новая дисциплина' }}</h2>
-<form method="post">
-    <label>Название</label>
-    <input type="text" name="name" value="{{ course.name if course }}" required>
-    <label>Семестр</label>
-    <input type="number" name="semester" value="{{ course.semester if course }}" required>
-    <label>Часы</label>
-    <input type="number" name="hours" value="{{ course.hours if course }}" required>
-    <label>Преподаватель</label>
-    <select name="teacher_user_id">
-        <option value="">-- не назначен --</option>
-        {% for t in teachers %}
-        <option value="{{ t.id }}" {% if course and course.teacher_user_id==t.id %}selected{% endif %}>{{ t.full_name }}</option>
-        {% endfor %}
-    </select>
-    <button type="submit">Сохранить</button>
-</form>
+<section class="section card">
+    <h2>{{ 'Редактировать дисциплину' if course else 'Новая дисциплина' }}</h2>
+    <form class="stack" method="post">
+        <div class="field">
+            <label for="name">Название</label>
+            <input class="input" id="name" type="text" name="name" value="{{ course.name if course }}" required>
+        </div>
+        <div class="field">
+            <label for="semester">Семестр</label>
+            <input class="input" id="semester" type="number" name="semester" value="{{ course.semester if course }}" required>
+        </div>
+        <div class="field">
+            <label for="hours">Часы</label>
+            <input class="input" id="hours" type="number" name="hours" value="{{ course.hours if course }}" required>
+        </div>
+        <div class="field">
+            <label for="teacher_user_id">Преподаватель</label>
+            <select id="teacher_user_id" name="teacher_user_id">
+                <option value="">-- не назначен --</option>
+                {% for t in teachers %}
+                <option value="{{ t.id }}" {% if course and course.teacher_user_id==t.id %}selected{% endif %}>{{ t.full_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="actions">
+            <button class="btn btn--primary" type="submit">Сохранить</button>
+        </div>
+    </form>
+</section>
 {% endblock %}
