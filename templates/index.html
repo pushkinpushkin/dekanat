@@ -1,28 +1,67 @@
 {% extends 'layout.html' %}
 {% block content %}
-<section class="section card">
-    <div class="hero">
-        <div class="hero__text">
+<section class="home-section">
+    <div class="home-hero">
+        <div class="home-hero__text">
+            <p class="eyebrow">Учет успеваемости · Деканат</p>
             <h1>Здравствуйте, {{ current_user.full_name }}!</h1>
-            <p>Роль: {{ current_user.role }}. Используйте быстрые ссылки ниже для навигации.</p>
+            <p class="muted">Роль: {{ current_user.role }}. Выберите нужный раздел, чтобы продолжить.</p>
+            <div class="home-hero__meta">
+                <span class="chip">Сегодня: {{ current_date|default('—') }}</span>
+                <span class="chip chip--accent">Быстрый доступ</span>
+            </div>
+        </div>
+        <div class="home-hero__aside">
+            <div class="stat-tile">
+                <span class="stat-tile__label">Ведомостей в работе</span>
+                <span class="stat-tile__value">{{ open_gradebooks|default('—') }}</span>
+                <span class="stat-tile__hint muted">Обновление каждые 24 часа</span>
+            </div>
         </div>
     </div>
-    <div class="card-grid">
-        <div class="card">
-            <h3>Студенты</h3>
+
+    <div class="panel-grid">
+        <article class="panel">
+            <div class="panel__header">
+                <div>
+                    <p class="eyebrow">Раздел</p>
+                    <h3>Студенты</h3>
+                </div>
+                <span class="pill">Карточки</span>
+            </div>
             <p class="muted">Карточки студентов, группы и контактные данные.</p>
-            <a class="btn btn--secondary" href="{{ url_for('students.list_students') }}">Перейти</a>
-        </div>
-        <div class="card">
-            <h3>Дисциплины</h3>
+            <div class="panel__footer">
+                <a class="btn btn--secondary" href="{{ url_for('students.list_students') }}">Перейти</a>
+            </div>
+        </article>
+
+        <article class="panel">
+            <div class="panel__header">
+                <div>
+                    <p class="eyebrow">Раздел</p>
+                    <h3>Дисциплины</h3>
+                </div>
+                <span class="pill">Курсы</span>
+            </div>
             <p class="muted">Учебные курсы и назначенные преподаватели.</p>
-            <a class="btn btn--secondary" href="{{ url_for('courses.list_courses') }}">Перейти</a>
-        </div>
-        <div class="card">
-            <h3>Ведомости</h3>
+            <div class="panel__footer">
+                <a class="btn btn--secondary" href="{{ url_for('courses.list_courses') }}">Перейти</a>
+            </div>
+        </article>
+
+        <article class="panel">
+            <div class="panel__header">
+                <div>
+                    <p class="eyebrow">Раздел</p>
+                    <h3>Ведомости</h3>
+                </div>
+                <span class="pill pill--warning">Статусы</span>
+            </div>
             <p class="muted">Статусы ведомостей и последние изменения.</p>
-            <a class="btn btn--secondary" href="{{ url_for('gradebooks.list_gradebooks') }}">Перейти</a>
-        </div>
+            <div class="panel__footer">
+                <a class="btn btn--secondary" href="{{ url_for('gradebooks.list_gradebooks') }}">Перейти</a>
+            </div>
+        </article>
     </div>
 </section>
 {% endblock %}
