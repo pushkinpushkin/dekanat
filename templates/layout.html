@@ -3,22 +3,12 @@
 <head>
     <meta charset="utf-8">
     <title>Деканат</title>
-    {% if not pdf_mode %}
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    {% else %}
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        h1, h2 { margin-bottom: 10px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th, td { border: 1px solid #aaa; padding: 6px; font-size: 12px; }
-        .actions { margin-top: 12px; }
-    </style>
-    {% endif %}
 </head>
 <body>
     <header>
         <h1>Учет успеваемости студентов</h1>
-        {% if current_user.is_authenticated and not pdf_mode %}
+        {% if current_user.is_authenticated %}
         <nav>
             <a href="{{ url_for('main.index') }}">Главная</a>
             <a href="{{ url_for('students.list_students') }}">Студенты</a>
