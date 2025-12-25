@@ -1,3 +1,6 @@
+SET NAMES utf8mb4;
+SET CHARACTER SET utf8mb4;
+
 INSERT INTO users (username, password_hash, role, full_name) VALUES
 ('admin', 'pbkdf2:sha256:260000$ZiwDB9m+bbUeOwVa48n4NQ==$0e2ae7f482c2c0d6ae36d23bb4e8a455cb5db88cc745df07837fb5e1452d697b', 'DB_ADMIN', 'Администратор БД'),
 ('teacher1', 'pbkdf2:sha256:260000$ssroXcZKCRF+6y6ahae0Xg==$292bbb3ed3aa1065714a6767f71a26974ea6ada40ba108c54feaac5182140634', 'TEACHER', 'Преподаватель 1'),
