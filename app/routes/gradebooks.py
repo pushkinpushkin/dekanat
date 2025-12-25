@@ -3,7 +3,7 @@ from flask_login import login_required, current_user
 from app.db import get_db
 from app.permissions import require_gradebook_edit, can_close_gradebook, can_finalize_gradebook
 from app.repositories import gradebooks as gb_repo
-from app.pdf_utils import PdfUnavailable, render_pdf
+from app.pdf_utils import render_pdf
 
 
 gradebooks_bp = Blueprint("gradebooks", __name__, url_prefix="/gradebooks")
@@ -101,20 +101,16 @@ def gradebook_pdf(gradebook_id):
         return redirect(url_for("gradebooks.list_gradebooks"))
 
     grades = gb_repo.list_grades(conn, gradebook_id)
-    try:
-        return render_pdf(
-            "gradebook.html",
-            download_name="gradebook.pdf",
-            context={
-                "gradebook": gradebook,
-                "grades": grades,
-                "grade_options": [],
-                "can_edit": False,
-                "can_close": False,
-                "can_finalize": False,
-                "pdf_mode": True,
-            },
-        )
-    except PdfUnavailable:
-        flash("WeasyPrint не установлен. Установите зависимость или используйте печать в браузере.", "warning")
-        return redirect(url_for("gradebooks.view_gradebook", gradebook_id=gradebook_id))
+    return render_pdf(
+        "gradebook.html",
+        download_name="gradebook.pdf",
+        context={
+            "gradebook": gradebook,
+            "grades": grades,
+            "grade_options": [],
+            "can_edit": False,
+            "can_close": False,
+            "can_finalize": False,
+            "pdf_mode": True,
+        },
+    )

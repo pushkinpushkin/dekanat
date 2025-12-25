@@ -4,16 +4,6 @@ from typing import Any, Dict
 from flask import render_template, send_file
 
 
-class PdfUnavailable(RuntimeError):
-    """Raised when PDF generation is not available."""
-
-
-def _render_with_weasyprint(html: str) -> bytes:
-    from weasyprint import HTML  # type: ignore
-
-    return HTML(string=html).write_pdf()
-
-
 def _render_with_pypdf(html: str) -> bytes:
     from pypdf import PdfWriter  # type: ignore
     from pypdf.generic import DictionaryObject, NameObject, StreamObject  # type: ignore
@@ -45,20 +35,8 @@ def _render_with_pypdf(html: str) -> bytes:
 
 
 def render_pdf(template_name: str, download_name: str, context: Dict[str, Any]) -> Any:
-    """Render a Jinja template into PDF using available engines.
-
-    Prefers WeasyPrint if installed (for better CSS support),
-    otherwise falls back to pure-Python pypdf (text-only fallback).
-    """
+    """Render a Jinja template into PDF using pypdf."""
     html = render_template(template_name, **context)
 
-    renderers = (_render_with_weasyprint, _render_with_pypdf)
-    last_error: Exception | None = None
-    for renderer in renderers:
-        try:
-            pdf_bytes = renderer(html)
-            return send_file(BytesIO(pdf_bytes), download_name=download_name, as_attachment=True)
-        except Exception as exc:  # pragma: no cover - optional deps
-            last_error = exc
-            continue
-    raise PdfUnavailable(f"PDF generation failed: {last_error}")
+    pdf_bytes = _render_with_pypdf(html)
+    return send_file(BytesIO(pdf_bytes), download_name=download_name, as_attachment=True)
