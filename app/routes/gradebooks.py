@@ -3,6 +3,7 @@ from flask_login import login_required, current_user
 from app.db import get_db
 from app.permissions import require_gradebook_edit, can_close_gradebook, can_finalize_gradebook
 from app.repositories import gradebooks as gb_repo
+from app.pdf_utils import PdfUnavailable, render_pdf
 
 
 gradebooks_bp = Blueprint("gradebooks", __name__, url_prefix="/gradebooks")
@@ -54,6 +55,7 @@ def view_gradebook(gradebook_id):
         can_edit=require_gradebook_edit(gradebook, current_user),
         can_close=can_close_gradebook(current_user),
         can_finalize=can_finalize_gradebook(current_user),
+        pdf_mode=False,
     )
 
 
@@ -85,3 +87,34 @@ def finalize_gradebook(gradebook_id):
         gb_repo.finalize_gradebook(conn, gradebook_id, current_user.id)
         flash("Ведомость финализирована", "success")
     return redirect(url_for("gradebooks.view_gradebook", gradebook_id=gradebook_id))
+
+
+@gradebooks_bp.route("/<int:gradebook_id>/pdf")
+@login_required
+def gradebook_pdf(gradebook_id):
+    conn = get_db()
+    gradebook = gb_repo.get_gradebook(conn, gradebook_id)
+    if not gradebook:
+        flash("Ведомость не найдена", "warning")
+        return redirect(url_for("gradebooks.list_gradebooks"))
+    if not _can_view(gradebook):
+        return redirect(url_for("gradebooks.list_gradebooks"))
+
+    grades = gb_repo.list_grades(conn, gradebook_id)
+    try:
+        return render_pdf(
+            "gradebook.html",
+            download_name="gradebook.pdf",
+            context={
+                "gradebook": gradebook,
+                "grades": grades,
+                "grade_options": [],
+                "can_edit": False,
+                "can_close": False,
+                "can_finalize": False,
+                "pdf_mode": True,
+            },
+        )
+    except PdfUnavailable:
+        flash("WeasyPrint не установлен. Установите зависимость или используйте печать в браузере.", "warning")
+        return redirect(url_for("gradebooks.view_gradebook", gradebook_id=gradebook_id))

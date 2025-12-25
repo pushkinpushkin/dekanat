@@ -4,7 +4,7 @@
 {% if student %}
 <p><strong>ФИО:</strong> {{ student.last_name }} {{ student.first_name }} {{ student.patronymic }}</p>
 <p><strong>Группа:</strong> {{ student.group_name }} ({{ student.program_name }} / {{ student.faculty_name }})</p>
-<table>
+<table class="report-table">
     <tr><th>Дисциплина</th><th>Год</th><th>Сессия</th><th>Оценка</th></tr>
     {% for g in grades %}
     <tr>
@@ -15,9 +15,10 @@
     </tr>
     {% endfor %}
 </table>
-<a class="button" href="javascript:window.print()">Печать в PDF</a>
 {% if not pdf_mode %}
-    <a class="button" href="{{ url_for('reports.transcript_pdf', student_id=student.id) }}">Скачать PDF (если доступен WeasyPrint)</a>
+    <div class="actions">
+        <a class="button" href="{{ url_for('reports.transcript_pdf', student_id=student.id) }}">Скачать PDF</a>
+    </div>
 {% endif %}
 {% endif %}
 {% endblock %}
