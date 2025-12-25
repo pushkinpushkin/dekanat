@@ -2,12 +2,13 @@
 {% block content %}
 <h2>Ведомость: {{ gradebook.course_name }} / {{ gradebook.group_name }} / {{ gradebook.session_year }} {{ gradebook.session_term }}</h2>
 <p>Статус: {{ gradebook.status }}</p>
-<table>
-    <tr><th>Студент</th><th>Оценка</th><th>Действие</th></tr>
+<table class="report-table">
+    <tr><th>Студент</th><th>Оценка</th>{% if not pdf_mode %}<th>Действие</th>{% endif %}</tr>
     {% for g in grades %}
     <tr>
         <td>{{ g.last_name }} {{ g.first_name }} {{ g.patronymic }}</td>
         <td>{{ g.grade or '-' }}</td>
+        {% if not pdf_mode %}
         <td>
             {% if can_edit %}
             <form method="post">
@@ -21,10 +22,13 @@
             </form>
             {% endif %}
         </td>
+        {% endif %}
     </tr>
     {% endfor %}
 </table>
+{% if not pdf_mode %}
 <div class="actions">
+    <a class="button" href="{{ url_for('gradebooks.gradebook_pdf', gradebook_id=gradebook.id) }}">Скачать PDF</a>
     {% if can_close %}
     <form method="post" action="{{ url_for('gradebooks.close_gradebook', gradebook_id=gradebook.id) }}">
         <button type="submit" {% if gradebook.status != 'OPEN' %}disabled{% endif %}>Закрыть (OPEN→CLOSED)</button>
@@ -36,4 +40,5 @@
     </form>
     {% endif %}
 </div>
+{% endif %}
 {% endblock %}

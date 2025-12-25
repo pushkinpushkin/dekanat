@@ -1,7 +1,7 @@
-from io import BytesIO
-from flask import Blueprint, render_template, send_file, flash, redirect, url_for
+from flask import Blueprint, render_template, flash, redirect, url_for
 from flask_login import login_required
 from app.db import get_db
+from app.pdf_utils import PdfUnavailable, render_pdf
 
 reports_bp = Blueprint("reports", __name__, url_prefix="/reports")
 
@@ -48,7 +48,7 @@ def transcript(student_id):
     if not student:
         flash("Студент не найден", "warning")
         return redirect(url_for("students.list_students"))
-    return render_template("report_transcript.html", student=student, grades=grades)
+    return render_template("report_transcript.html", student=student, grades=grades, pdf_mode=False)
 
 
 @reports_bp.route("/transcript/<int:student_id>/pdf")
@@ -59,11 +59,11 @@ def transcript_pdf(student_id):
         flash("Студент не найден", "warning")
         return redirect(url_for("students.list_students"))
     try:
-        from weasyprint import HTML
-    except Exception:
-        flash("WeasyPrint не установлен. Используйте печать в браузере.", "warning")
+        return render_pdf(
+            "report_transcript.html",
+            download_name="transcript.pdf",
+            context={"student": student, "grades": grades, "pdf_mode": True},
+        )
+    except PdfUnavailable:
+        flash("WeasyPrint не установлен. Установите зависимость или используйте печать в браузере.", "warning")
         return redirect(url_for("reports.transcript", student_id=student_id))
-
-    html = render_template("report_transcript.html", student=student, grades=grades, pdf_mode=True)
-    pdf_bytes = HTML(string=html).write_pdf()
-    return send_file(BytesIO(pdf_bytes), download_name="transcript.pdf", as_attachment=True)
