@@ -4,4 +4,4 @@ mysql-connector-python==8.3.0
 python-dotenv==1.0.1
 Werkzeug==3.0.3
 weasyprint==61.2  # optional, install if available
-xhtml2pdf==0.2.13  # pure-Python fallback for PDF generation
+pypdf==6.5.0  # pure-Python fallback for PDF generation
