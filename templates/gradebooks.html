@@ -1,17 +1,25 @@
 {% extends 'layout.html' %}
 {% block content %}
-<h2>Ведомости</h2>
-<table>
-    <tr><th>Дисциплина</th><th>Группа</th><th>Год</th><th>Сессия</th><th>Статус</th><th>Действия</th></tr>
-    {% for gb in gradebooks %}
-    <tr>
-        <td>{{ gb.course_name }}</td>
-        <td>{{ gb.group_name }}</td>
-        <td>{{ gb.session_year }}</td>
-        <td>{{ gb.session_term }}</td>
-        <td>{{ gb.status }}</td>
-        <td><a href="{{ url_for('gradebooks.view_gradebook', gradebook_id=gb.id) }}">Открыть</a></td>
-    </tr>
-    {% endfor %}
-</table>
+<section class="section card">
+    <div class="card__header">
+        <h2>Ведомости</h2>
+    </div>
+    <table class="table">
+        <thead>
+            <tr><th>Дисциплина</th><th>Группа</th><th>Год</th><th>Сессия</th><th>Статус</th><th>Действия</th></tr>
+        </thead>
+        <tbody>
+        {% for gb in gradebooks %}
+            <tr>
+                <td>{{ gb.course_name }}</td>
+                <td>{{ gb.group_name }}</td>
+                <td>{{ gb.session_year }}</td>
+                <td>{{ gb.session_term }}</td>
+                <td>{{ gb.status }}</td>
+                <td class="table-actions"><a class="btn btn--secondary btn--ghost" href="{{ url_for('gradebooks.view_gradebook', gradebook_id=gb.id) }}">Открыть</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</section>
 {% endblock %}

@@ -8,25 +8,33 @@
     table.report-table th, table.report-table td { border: 1px solid #aaa; padding: 6px; font-size: 12px; }
 </style>
 {% endif %}
-<h2>Справка по студенту</h2>
-{% if student %}
-<p><strong>ФИО:</strong> {{ student.last_name }} {{ student.first_name }} {{ student.patronymic }}</p>
-<p><strong>Группа:</strong> {{ student.group_name }} ({{ student.program_name }} / {{ student.faculty_name }})</p>
-<table class="report-table">
-    <tr><th>Дисциплина</th><th>Год</th><th>Сессия</th><th>Оценка</th></tr>
-    {% for g in grades %}
-    <tr>
-        <td>{{ g.course_name }}</td>
-        <td>{{ g.session_year }}</td>
-        <td>{{ g.session_term }}</td>
-        <td>{{ g.grade or '-' }}</td>
-    </tr>
-    {% endfor %}
-</table>
-{% if not pdf_mode %}
-    <div class="actions">
-        <a class="button" href="{{ url_for('reports.transcript_pdf', student_id=student.id) }}">Скачать PDF</a>
+<section class="section card">
+    <h2>Справка по студенту</h2>
+    {% if student %}
+    <div class="stack">
+        <p><strong>ФИО:</strong> {{ student.last_name }} {{ student.first_name }} {{ student.patronymic }}</p>
+        <p><strong>Группа:</strong> {{ student.group_name }} ({{ student.program_name }} / {{ student.faculty_name }})</p>
     </div>
-{% endif %}
-{% endif %}
+    <table class="{% if pdf_mode %}report-table{% else %}table{% endif %}">
+        <thead>
+            <tr><th>Дисциплина</th><th>Год</th><th>Сессия</th><th>Оценка</th></tr>
+        </thead>
+        <tbody>
+        {% for g in grades %}
+            <tr>
+                <td>{{ g.course_name }}</td>
+                <td>{{ g.session_year }}</td>
+                <td>{{ g.session_term }}</td>
+                <td>{{ g.grade or '-' }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% if not pdf_mode %}
+        <div class="actions">
+            <a class="btn btn--secondary" href="{{ url_for('reports.transcript_pdf', student_id=student.id) }}">Скачать PDF</a>
+        </div>
+    {% endif %}
+    {% endif %}
+</section>
 {% endblock %}
