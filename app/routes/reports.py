@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, flash, redirect, url_for
 from flask_login import login_required
 from app.db import get_db
-from app.pdf_utils import render_pdf
+from app.pdf_utils import render_transcript_pdf
 
 reports_bp = Blueprint("reports", __name__, url_prefix="/reports")
 
@@ -58,8 +58,9 @@ def transcript_pdf(student_id):
     if not student:
         flash("Студент не найден", "warning")
         return redirect(url_for("students.list_students"))
-    return render_pdf(
-        "report_transcript.html",
+
+    return render_transcript_pdf(
         download_name="transcript.pdf",
-        context={"student": student, "grades": grades, "pdf_mode": True},
+        student=student,
+        grades=grades,
     )
