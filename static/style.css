@@ -510,24 +510,6 @@ input.input--error {
   font-size: 14px;
 }
 
-.chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 12px;
-  border-radius: 999px;
-  border: 1px solid var(--color-border);
-  background: #f4f5f2;
-  color: var(--color-text);
-  font-weight: 600;
-}
-
-.chip--accent {
-  border-color: var(--color-accent);
-  color: var(--color-accent);
-  background: var(--color-accent-weak);
-}
-
 .eyebrow {
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -572,21 +554,6 @@ input.input--error {
 
 .panel__footer {
   margin-top: auto;
-}
-
-.pill {
-  display: inline-flex;
-  align-items: center;
-  padding: 6px 10px;
-  border-radius: var(--radius-md);
-  background: var(--color-accent-weak);
-  color: var(--color-accent);
-  font-weight: 600;
-}
-
-.pill--warning {
-  background: var(--color-cta-weak);
-  color: var(--color-cta);
 }
 
 .badge {

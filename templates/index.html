@@ -3,21 +3,10 @@
 <section class="home-section">
     <div class="home-hero">
         <div class="home-hero__text">
-            <p class="eyebrow">Учет успеваемости · Деканат</p>
             <h1>Здравствуйте, {{ current_user.full_name }}!</h1>
             <p class="muted">Роль: {{ current_user.role }}. Выберите нужный раздел, чтобы продолжить.</p>
-            <div class="home-hero__meta">
-                <span class="chip">Сегодня: {{ current_date|default('—') }}</span>
-                <span class="chip chip--accent">Быстрый доступ</span>
-            </div>
         </div>
-        <div class="home-hero__aside">
-            <div class="stat-tile">
-                <span class="stat-tile__label">Ведомостей в работе</span>
-                <span class="stat-tile__value">{{ open_gradebooks|default('—') }}</span>
-                <span class="stat-tile__hint muted">Обновление каждые 24 часа</span>
-            </div>
-        </div>
+        <div class="home-hero__aside"></div>
     </div>
 
     <div class="panel-grid">
@@ -27,7 +16,6 @@
                     <p class="eyebrow">Раздел</p>
                     <h3>Студенты</h3>
                 </div>
-                <span class="pill">Карточки</span>
             </div>
             <p class="muted">Карточки студентов, группы и контактные данные.</p>
             <div class="panel__footer">
@@ -41,7 +29,6 @@
                     <p class="eyebrow">Раздел</p>
                     <h3>Дисциплины</h3>
                 </div>
-                <span class="pill">Курсы</span>
             </div>
             <p class="muted">Учебные курсы и назначенные преподаватели.</p>
             <div class="panel__footer">
@@ -55,7 +42,6 @@
                     <p class="eyebrow">Раздел</p>
                     <h3>Ведомости</h3>
                 </div>
-                <span class="pill pill--warning">Статусы</span>
             </div>
             <p class="muted">Статусы ведомостей и последние изменения.</p>
             <div class="panel__footer">
